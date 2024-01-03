@@ -13,6 +13,9 @@ import {
 } from "@/components/ui/form"
 import { Input } from "@/components/ui/input"
 import { Button } from "@/components/ui/button"
+import { register } from '@/api/store'
+import { AxiosError } from 'axios'
+import { useRouter } from 'next/navigation'
 
 const registerSchema = z.object({
     email: z.string().email("E-mail inválido"),
@@ -20,10 +23,11 @@ const registerSchema = z.object({
     password: z.string().min(5, "Senha deve ter mais que 5 caracteres").max(10, "Senha não pode ter mais que 10 caracteres"),
 })
 
-type TregisterSchema = z.infer<typeof registerSchema>
+export type TregisterSchema = z.infer<typeof registerSchema>
 
 const Register = () => {
 
+    const router = useRouter();
     const form = useForm<TregisterSchema>({
         resolver: zodResolver(registerSchema),
         defaultValues: {
@@ -33,9 +37,23 @@ const Register = () => {
         }
     })
 
-    const onSubmit = (data: TregisterSchema) => {
-        console.log(data)
+
+    const onSubmit = async (data: TregisterSchema) => {
+        try {
+            const res = await register(data);
+            res.data;
+            router.push('/auth/login');
+        } catch (err) {
+            if (err instanceof AxiosError) {
+                const errorData = err?.response?.data;
+                form.setError(errorData.fieldError, {
+                    message: errorData.message,
+                });
+            }
+        }
+
     }
+
 
     return (
         <Form {...form}>
@@ -61,7 +79,7 @@ const Register = () => {
                         <FormItem className='max-w-md w-full'>
                             <FormLabel>Name</FormLabel>
                             <FormControl>
-                                <Input placeholder='Digite seu nome' {...field} />
+                                <Input placeholder='Digite seu nome'  {...field} />
                             </FormControl>
                             <FormMessage />
                         </FormItem>
@@ -74,7 +92,7 @@ const Register = () => {
                         <FormItem className='max-w-md w-full'>
                             <FormLabel>Senha</FormLabel>
                             <FormControl>
-                                <Input placeholder='Digite sua senha' {...field} />
+                                <Input placeholder='Digite sua senha' type="password" {...field} />
                             </FormControl>
                             <FormMessage />
                         </FormItem>
