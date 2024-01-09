@@ -2,7 +2,6 @@
 import { zodResolver } from '@hookform/resolvers/zod'
 import React from 'react'
 import { useForm } from 'react-hook-form'
-import z from 'zod'
 import {
     Form,
     FormControl,
@@ -16,14 +15,12 @@ import { Button } from "@/components/ui/button"
 import { register } from '@/api/store'
 import { AxiosError } from 'axios'
 import { useRouter } from 'next/navigation'
+import { TregisterSchema } from '@/app/types/Auth'
+import { registerSchema } from '@/app/validation/Auth'
 
-const registerSchema = z.object({
-    email: z.string().email("E-mail inválido"),
-    name: z.string().min(4, "Nome deve ter mais que 4 caracteres").max(15, "Nome deve ter menos que 15 caracteres"),
-    password: z.string().min(5, "Senha deve ter mais que 5 caracteres").max(10, "Senha não pode ter mais que 10 caracteres"),
-})
 
-export type TregisterSchema = z.infer<typeof registerSchema>
+
+
 
 const Register = () => {
 

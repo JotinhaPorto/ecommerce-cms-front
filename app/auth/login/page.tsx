@@ -2,7 +2,6 @@
 import { zodResolver } from '@hookform/resolvers/zod'
 import React from 'react'
 import { useForm } from 'react-hook-form'
-import z from 'zod'
 import {
     Form,
     FormControl,
@@ -13,21 +12,18 @@ import {
 } from "@/components/ui/form"
 import { Input } from "@/components/ui/input"
 import { Button } from "@/components/ui/button"
-import { login } from '@/api/store'
 import { AxiosError } from 'axios'
 import { useRouter } from 'next/navigation'
-const registerSchema = z.object({
-    email: z.string().email("E-mail inválido"),
-    password: z.string().min(5, "Senha deve ter mais que 5 caracteres").max(10, "Senha não pode ter mais que 10 caracteres"),
-})
-
-export type TLoginSchema = z.infer<typeof registerSchema>
+import { TLoginSchema } from '@/app/types/Auth'
+import { loginSchema } from '@/app/validation/Auth'
+import { useLogin } from '@/app/hooks/authentication/useLogin'
 
 const Login = () => {
 
+    const { signIn, isAuthenticated, user } = useLogin()
     const router = useRouter();
     const form = useForm<TLoginSchema>({
-        resolver: zodResolver(registerSchema),
+        resolver: zodResolver(loginSchema),
         defaultValues: {
             email: "",
             password: ""
@@ -36,18 +32,19 @@ const Login = () => {
 
     const onSubmit = async (data: TLoginSchema) => {
         try {
-            const res = await login(data);
-            res.data;
+            await signIn(data)
             router.push('/')
-        } catch (err) {
-            if (err instanceof AxiosError) {
-                const errorData = err?.response?.data;
+        }
+        catch (error) {
+            if (error instanceof AxiosError) {
+                const errorData = error?.response?.data;
                 form.setError(errorData.fieldError, {
-                    message: errorData.message
-                })
+                    message: errorData.message,
+                });
             }
         }
     }
+
 
     return (
         <Form {...form}>
