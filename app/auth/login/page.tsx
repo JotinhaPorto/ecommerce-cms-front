@@ -12,15 +12,13 @@ import {
 } from "@/components/ui/form"
 import { Input } from "@/components/ui/input"
 import { Button } from "@/components/ui/button"
-import { AxiosError } from 'axios'
 import { useRouter } from 'next/navigation'
 import { TLoginSchema } from '@/app/types/Auth'
 import { loginSchema } from '@/app/validation/Auth'
-import { useLogin } from '@/app/hooks/authentication/useLogin'
+import { signInAction } from '@/actions/signIn'
 
 const Login = () => {
 
-    const { signIn, isAuthenticated, user } = useLogin()
     const router = useRouter();
     const form = useForm<TLoginSchema>({
         resolver: zodResolver(loginSchema),
@@ -31,18 +29,14 @@ const Login = () => {
     })
 
     const onSubmit = async (data: TLoginSchema) => {
-        try {
-            await signIn(data)
+        const res = await signInAction(data)
+
+        if (res.id) {
             router.push('/')
         }
-        catch (error) {
-            if (error instanceof AxiosError) {
-                const errorData = error?.response?.data;
-                form.setError(errorData.fieldError, {
-                    message: errorData.message,
-                });
-            }
-        }
+
+        form.setError(res?.fieldError, { message: res?.message })
+
     }
 
 

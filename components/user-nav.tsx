@@ -1,5 +1,5 @@
+'use client'
 import React from 'react'
-
 import {
     Avatar,
     AvatarFallback,
@@ -8,22 +8,23 @@ import {
 import { Button } from "@/components/ui/button"
 import {
     DropdownMenu,
-    DropdownMenuCheckboxItem,
     DropdownMenuContent,
     DropdownMenuItem,
     DropdownMenuLabel,
-    DropdownMenuSeparator,
     DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
 import { UserFromUserNav } from '@/app/types/Auth'
 import { LogOut } from 'lucide-react'
-import { cn } from '@/lib/utils'
+import { useRouter } from 'next/navigation'
+import Logout from './logout'
 
 type UserNavProps = {
     user: UserFromUserNav;
 }
 
 const UserNav = ({ user }: UserNavProps) => {
+
+
     return (
         <DropdownMenu>
             <DropdownMenuTrigger>
@@ -44,8 +45,7 @@ const UserNav = ({ user }: UserNavProps) => {
                     </div>
                 </DropdownMenuLabel>
                 <DropdownMenuItem className='cursor-pointer'>
-                    <LogOut className="mr-2 h-4 w-4" />
-                    <span>Sair</span>
+                    <Logout />
                 </DropdownMenuItem>
             </DropdownMenuContent>
         </DropdownMenu >
