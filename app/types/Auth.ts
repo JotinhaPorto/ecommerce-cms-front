@@ -22,3 +22,5 @@ export type TuseLogin = {
 
 export type TLoginSchema = z.infer<typeof loginSchema>
 export type TregisterSchema = z.infer<typeof registerSchema>
+
+export type UserFromUserNav = Pick<User, 'id' | 'email' | 'name' | 'image' | 'createdAt' | 'updatedAt'>
