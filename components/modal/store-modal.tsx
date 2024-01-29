@@ -18,6 +18,8 @@ import { parseCookies } from "nookies"
 import { createStore } from "@/api/store"
 import { AxiosError } from "axios"
 import { useRouter } from "next/navigation"
+import { useToast } from "../ui/use-toast"
+import { cn } from "@/lib/utils"
 
 const storeSchema = z.object({
     name: z.string().min(4, "Nome deve ter mais que 4 caracteres").max(10, "Nome deve ter menos que 10 caracteres"),
@@ -28,7 +30,7 @@ const StoreModal = () => {
 
     const { push } = useRouter()
 
-    const form = useForm({
+    const form = useForm<TStoreSchema>({
         resolver: zodResolver(storeSchema),
         defaultValues: {
             name: ""
@@ -38,7 +40,14 @@ const StoreModal = () => {
     const onSubmit = async (data: TStoreSchema) => {
         try {
             const response = await createStore(data, token)
+            toast({
+                className: cn(
+                    'top-0 right-0 flex fixed md:max-w-[420px] md:top-4 md:right-4'
+                ),
+                description: "Loja criada com sucesso!"
+            })
             push(`/${response.id}`)
+            storeModal.closeModal()
         }
         catch (error) {
             if (error instanceof AxiosError) {
@@ -51,7 +60,7 @@ const StoreModal = () => {
     }
 
     const storeModal = useModal()
-    
+    const { toast } = useToast()
     const { token } = parseCookies()
 
 
