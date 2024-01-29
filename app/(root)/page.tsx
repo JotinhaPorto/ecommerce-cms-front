@@ -1,32 +1,23 @@
 'use client'
-import React, { useEffect } from 'react'
-import { useLogin } from '../hooks/authentication/useLogin'
-import { useRouter } from 'next/navigation'
+
+import { useEffect } from "react"
+import { useModal } from "../hooks/useModal"
+import StoreModal from "@/components/modal/store-modal"
 
 const page = () => {
-    const router = useRouter()
-    const { getCurrentUser, user, signOut } = useLogin()
-
-    const logout = () => {
-        signOut()
-        router.push('/auth/login')
-    }
+    const onOpen = useModal((state) => state.openModal)
+    const isOpen = useModal((state) => state.isOpen)
 
     useEffect(() => {
-        const fetchCurrentUser = async () => {
-            try {
-                await getCurrentUser();
-            } catch (error) {
-                router.push('/auth/login')
-            }
-        };
+        if (!isOpen) {
+            onOpen()
+        }
 
-        fetchCurrentUser();
-    }, [getCurrentUser]);
+    }, [isOpen, onOpen])
 
     return (
-        <div>page of ROOT {user?.email} {user?.name}
-            <button className='bg-red-500 p-2 rounded' onClick={logout}>Sair</button>
+        <div>
+            <StoreModal />
         </div>
     )
 }
