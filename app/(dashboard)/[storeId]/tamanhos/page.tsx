@@ -3,13 +3,13 @@ import React from "react";
 import { columns } from "./_components/columns";
 import { Heading } from "@/components/heading";
 import { Separator } from "@/components/ui/separator";
-import ColorClientAddButton from "./_components/color-client-add-button";
+import SizeClientAddButton from "./_components/size-client-add-button";
 import { cookies } from "next/headers";
-import { getAllColors } from "@/api/store";
+import { getAllSizes } from "@/api/store";
 
 const page = async ({ params }: { params: { storeId: string } }) => {
   const token = cookies().get("token");
-  const colors = await getAllColors(
+  const sizes = await getAllSizes(
     params.storeId as string,
     token?.value as string
   );
@@ -18,14 +18,14 @@ const page = async ({ params }: { params: { storeId: string } }) => {
       <div className="py-5 flex justify-between items-center">
         <div>
           <Heading
-            title={`Cores (${colors.length})`}
-            description="Gerencie as cores dos produtos"
+            title={`Tamanhos (${sizes.length})`}
+            description="Gerencie os tamanhos dos produtos"
           />
         </div>
-        <ColorClientAddButton />
+        <SizeClientAddButton />
       </div>
       <Separator className="mb-4" />
-      <DataTable searchKey="name" columns={columns} data={colors} />
+      <DataTable searchKey="name" columns={columns} data={sizes} />
     </div>
   );
 };
