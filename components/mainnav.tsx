@@ -56,7 +56,7 @@ const MainNav = ({ className, ...props }: React.HTMLAttributes<HTMLElement>) => 
 
     return (
         <nav
-            className={cn("flex items-center gap-x-4", className)}
+            className={cn("hidden md:flex items-center gap-x-4", className)}
             {...props}
         >
             {routes.map((item) => (
