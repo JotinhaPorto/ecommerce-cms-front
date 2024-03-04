@@ -1,6 +1,6 @@
 import { req } from "@/api/axios";
 import { TLoginSchema, TregisterSchema } from "@/app/types/Auth";
-import { Color, Size } from "@/app/types/Store";
+import { Billboard, BillboardWithImage, Categories, Category, Color, ImageUpload, Product, Size } from "@/app/types/Store";
 import { getCookie } from "cookies-next";
 
 export const register = async (data: TregisterSchema) => {
@@ -165,3 +165,133 @@ export const createSize = async (data: any, storeId: string) => {
   });
   return response.data;
 };
+
+
+export const getAllBillboards = async (
+  billboardId: string,
+  userToken: string
+): Promise<Billboard[]> => {
+  const response = await req.get(`/store/${billboardId}/billboard/all`, {
+    headers: { Authorization: `Bearer ${userToken}` },
+  });
+  return response.data;
+};
+
+export const getBillboardById = async (
+  storeId: string,
+  billboardId: string,
+  userToken: string
+): Promise<BillboardWithImage> => {
+  const response = await req.get(`/store/${storeId}/billboard/${billboardId}`, {
+    headers: { Authorization: `Bearer ${userToken}` },
+  });
+  return response.data;
+};
+
+export const createImageS3 = async (data: any): Promise<ImageUpload> => {
+  const token = getCookie("token");
+  const response = await req.post(`/image/store`, data, {
+    headers: { Authorization: `Bearer ${token}` },
+  });
+  return response.data;
+}
+
+export const createBillboard = async (data: any, storeId: string) => {
+  const token = getCookie("token");
+  const response = await req.post(`/store/${storeId}/billboard/create`, data, {
+    headers: { Authorization: `Bearer ${token}` },
+  });
+  return response.data;
+}
+
+export const updateBillboard = async (data: any, storeId: string, billboardId: string) => {
+  const token = getCookie("token");
+  const response = await req.patch(`/store/${storeId}/billboard/${billboardId}`, data, {
+    headers: { Authorization: `Bearer ${token}` },
+  });
+  return response.data;
+}
+
+export const deleteBillboard = async (storeId: string, billboardId: string) => {
+  const token = getCookie("token");
+  const response = await req.delete(`/store/${storeId}/billboard/${billboardId}`, {
+    headers: { Authorization: `Bearer ${token}` },
+  });
+  return response.data;
+}
+
+export const getCategoryById = async (storeId: string, categoryId: string, tokenId: string): Promise<Category> => {
+  const response = await req.get(`/store/${storeId}/category/${categoryId}`, {
+    headers: { Authorization: `Bearer ${tokenId}` },
+  });
+  return response.data;
+}
+export const getAllCategories = async (storeId: string, tokenId: string): Promise<Categories[]> => {
+  const response = await req.get(`/store/${storeId}/category/all`, {
+    headers: { Authorization: `Bearer ${tokenId}` },
+  });
+  return response.data;
+}
+
+export const createCategory = async (data: any, storeId: string) => {
+  const token = getCookie("token");
+  const response = await req.post(`/store/${storeId}/category/create`, data, {
+    headers: { Authorization: `Bearer ${token}` },
+  });
+  return response.data
+}
+export const updateCategory = async (data: any, storeId: string, categoryId: string) => {
+  const token = getCookie("token");
+  const response = await req.patch(`/store/${storeId}/category/${categoryId}`, data, {
+    headers: { Authorization: `Bearer ${token}` },
+  });
+  return response.data
+}
+export const deleteCategory = async (storeId: string, categoryId: string) => {
+  const token = getCookie("token");
+  const response = await req.delete(`/store/${storeId}/category/${categoryId}`, {
+    headers: { Authorization: `Bearer ${token}` },
+  })
+  return response.data
+}
+
+export const getAllProducts = async (storeId: string, tokenId: string): Promise<any[]> => {
+  const response = await req.get(`/store/${storeId}/product/all`, {
+    headers: { Authorization: `Bearer ${tokenId}` },
+  });
+  return response.data;
+}
+export const getProductById = async (storeId: string, productId: string, tokenId: string): Promise<Product | null> => {
+  const response = await req.get(`/store/${storeId}/product/${productId}`, {
+    headers: { Authorization: `Bearer ${tokenId}` },
+  });
+  return response.data;
+}
+export const createProduct = async (data: any, storeId: string) => {
+  const token = getCookie("token");
+  const response = await req.post(`/store/${storeId}/product/create`, data, {
+    headers: { Authorization: `Bearer ${token}` },
+  });
+  return response.data
+}
+export const createImagesS3 = async (data: any): Promise<ImageUpload[] | null> => {
+  const token = getCookie("token");
+  const response = await req.post(`/images/store`, data, {
+    headers: { Authorization: `Bearer ${token}` },
+  });
+  return response.data;
+}
+export const updateProduct = async (data: any, storeId: string, productId: string) => {
+  const token = getCookie("token");
+  const response = await req.patch(`/store/${storeId}/product/${productId}`, data, {
+    headers: { Authorization: `Bearer ${token}` },
+  });
+  return response.data
+}
+export const deleteProduct = async (storeId: string, productId: string) => {
+  const token = getCookie("token");
+  const response = await req.delete(`/store/${storeId}/product/${productId}`, {
+    headers: { Authorization: `Bearer ${token}` },
+  })
+  return response.data
+}
