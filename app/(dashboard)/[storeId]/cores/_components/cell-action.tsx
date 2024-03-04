@@ -37,16 +37,21 @@ const CellAction = ({ data }: CellActionProps) => {
         try {
             await deleteColor(params.storeId as string, id);
             toast({
-              className: cn(
-                "top-0 right-0 flex fixed md:max-w-[420px] md:top-4 md:right-4"
-              ),
-              title: "Color deletada!",
-              description: "A cor foi deletada com sucesso.",
+                className: cn(
+                    "top-0 right-0 flex fixed md:max-w-[420px] md:top-4 md:right-4"
+                ),
+                title: "Color deletada!",
+                description: "A cor foi deletada com sucesso.",
             });
             router.refresh();
-          } catch (error) {
-            console.log(error);
-          }
+        } catch (error) {
+            toast({
+                className: cn(
+                    "top-0 right-0 flex fixed md:max-w-[420px] md:top-4 md:right-4"
+                ),
+                description: `${error.response.data.message}`,
+            });
+        }
     }
     const handleUpdate = (id: string) => {
         router.push(`/${params.storeId}/cores/${id}`)

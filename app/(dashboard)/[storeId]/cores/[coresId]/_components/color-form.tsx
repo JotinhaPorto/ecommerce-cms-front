@@ -23,6 +23,7 @@ import { cn } from "@/lib/utils";
 import { AlertModal } from "@/components/modal/alert-modal";
 import { useState } from "react";
 import { Separator } from "@/components/ui/separator";
+import { AxiosError } from "axios";
 
 type ColorFormProps = {
   initialData: Color | null;
@@ -86,7 +87,14 @@ const ColorForm = ({ initialData }: ColorFormProps) => {
       router.refresh();
       router.push(`/${params.storeId}/cores`);
     } catch (error) {
-      console.log(error);
+      if (error instanceof AxiosError) {
+        toast({
+          className: cn(
+            "top-0 right-0 flex fixed md:max-w-[420px] md:top-4 md:right-4"
+          ),
+          description: `${error.response!.data.message}`,
+        });
+      }
     }
   };
 
