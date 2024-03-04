@@ -16,6 +16,7 @@ export const columns: ColumnDef<SizeColumn>[] = [
   {
     accessorKey: "createdAt",
     header: "Data",
+    cell: ({ row }) => new Date(row.original.createdAt).toLocaleDateString(),
   },
   {
     id: "actions",

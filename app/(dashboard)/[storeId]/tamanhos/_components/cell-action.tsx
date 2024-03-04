@@ -14,6 +14,7 @@ import { cn } from "@/lib/utils";
 import { useParams, useRouter } from "next/navigation";
 import { SizeColumn } from "@/app/types/Store";
 import { deleteSize } from "@/api/store";
+import { AxiosError } from "axios";
 type CellActionProps = {
   data: SizeColumn;
 };
@@ -45,7 +46,14 @@ const CellAction = ({ data }: CellActionProps) => {
       });
       router.refresh();
     } catch (error) {
-      console.log(error);
+      if (error instanceof AxiosError) {
+        toast({
+          className: cn(
+            "top-0 right-0 flex fixed md:max-w-[420px] md:top-4 md:right-4"
+          ),
+          description: `${error.response!.data.message}`,
+        });
+      }
     }
   };
   const handleUpdate = (id: string) => {

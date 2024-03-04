@@ -30,6 +30,7 @@ import { cn } from "@/lib/utils";
 import { AlertModal } from "@/components/modal/alert-modal";
 import { useState } from "react";
 import { Separator } from "@/components/ui/separator";
+import { AxiosError } from "axios";
 
 type SizeFormProps = {
   initialData: Size | null;
@@ -94,7 +95,14 @@ const SizeForm = ({ initialData }: SizeFormProps) => {
       router.refresh();
       router.push(`/${params.storeId}/tamanhos`);
     } catch (error) {
-      console.log(error);
+      if (error instanceof AxiosError) {
+        toast({
+          className: cn(
+            "top-0 right-0 flex fixed md:max-w-[420px] md:top-4 md:right-4"
+          ),
+          description: `${error.response!.data.message}`,
+        });
+      }
     }
   };
 

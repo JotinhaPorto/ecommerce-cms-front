@@ -13,6 +13,7 @@ const page = async ({ params }: { params: { storeId: string } }) => {
     params.storeId as string,
     token?.value as string
   );
+
   return (
     <div className="px-4">
       <div className="py-5 flex justify-between items-center">
