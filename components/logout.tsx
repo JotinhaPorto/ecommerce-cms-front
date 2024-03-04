@@ -5,8 +5,8 @@ import { LogOut } from 'lucide-react'
 
 const Logout = () => {
     return (
-        <form action={logout}>
-            <Button variant="ghost" >
+        <form action={logout} className='flex w-full'>
+            <Button variant="ghost" className='w-full justify-start'>
                 <LogOut className="mr-2 h-4 w-4" />
                 Sair
             </Button>

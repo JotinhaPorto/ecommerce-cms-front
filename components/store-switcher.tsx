@@ -65,7 +65,7 @@ export function StoreSwitcher({ items = [] }: StoreSwitcherProps) {
                                     key={item.id}
                                     value={item.name}
                                     onSelect={() => onStoreSelect(item)}
-                                    className={cn("text-sm", currentStore?.id === item.id ? "bg-slate-100" : "bg-inherit")}
+                                    className="text-sm"
                                 >
                                     <div className="flex flex-1">
                                         <StoreIcon className="mr-2 h-5 w-5" />

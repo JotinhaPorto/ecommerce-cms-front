@@ -65,7 +65,7 @@ const MainNav = ({ className, ...props }: React.HTMLAttributes<HTMLElement>) => 
                     href={item.href}
                     className={cn(
                         'text-sm font-medium transition-colors hover:text-primary line-clamp-1',
-                        item.active ? 'text-black' : 'text-muted-foreground'
+                        item.active ? 'text-black dark:text-white' : 'text-muted-foreground'
                     )}
                 >
                     {item.label}

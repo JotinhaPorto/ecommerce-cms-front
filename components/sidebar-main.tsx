@@ -61,7 +61,7 @@ const SideBarMain = () => {
           href={route.href}
           type="button"
           className={cn(
-            "flex items-center gap-x-2 text-muted-foreground text-sm font-[500] pl-6 transition-all",
+            "flex items-center gap-x-2 text-muted-foreground dark:text-white text-sm font-[500] pl-6 transition-all",
             route.active && "text-black"
           )}
         >
