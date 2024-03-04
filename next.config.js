@@ -1,4 +1,9 @@
 /** @type {import('next').NextConfig} */
-const nextConfig = {}
 
-module.exports = nextConfig
+
+module.exports = {
+    images: {
+        domains: ['upload-aws-demo.s3.us-east-2.amazonaws.com'],
+    },
+    reactStrictMode: false,
+}
