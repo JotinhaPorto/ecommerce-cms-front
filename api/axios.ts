@@ -1,7 +1,7 @@
 import axios from "axios";
 
 export const req = axios.create({
-    baseURL: "http://localhost:80",
+    baseURL: process.env.API_KEY,
     headers: {
         Accept: 'application/json'
     },
