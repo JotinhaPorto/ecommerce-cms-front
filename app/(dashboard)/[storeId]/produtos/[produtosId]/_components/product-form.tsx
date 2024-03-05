@@ -40,6 +40,7 @@ import { Separator } from "@/components/ui/separator";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Category, Color } from "@/app/types/Store";
 import Image from "next/image";
+import { AxiosError } from "axios";
 
 interface ProductFormProps {
   initialData: any | null;
@@ -125,7 +126,14 @@ const ProductForm = ({ initialData, categories, colors, sizes }: ProductFormProp
       router.refresh();
       router.push(`/${params.storeId}/produtos`);
     } catch (error) {
-      console.log(error);
+      if (error instanceof AxiosError) {
+        toast({
+          className: cn(
+            "top-0 right-0 flex fixed md:max-w-[420px] md:top-4 md:right-4"
+          ),
+          description: `${error.response!.data.message}`,
+        });
+      }
     }
   };
 
