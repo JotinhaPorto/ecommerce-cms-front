@@ -31,6 +31,7 @@ import { Separator } from '@/components/ui/separator';
 import { Billboard, Category, CategoryFormValues } from '@/app/types/Store';
 import { CategoryFormSchema } from '@/app/validation/Store';
 import { createCategory, deleteCategory, updateCategory } from '@/api/store';
+import { AxiosError } from 'axios';
 
 type CategoryProps = {
     initialData: Category | null;
@@ -97,12 +98,14 @@ const CategoryForm = ({ initialData, billboards }: CategoryProps) => {
             router.refresh();
             router.push(`/${params.storeId}/categorias`);
         } catch (error) {
-            toast({
-                className: cn(
-                    "top-0 right-0 flex fixed md:max-w-[420px] md:top-4 md:right-4"
-                ),
-                description: `${error.response.data.message}`,
-            });
+            if (error instanceof AxiosError) {
+                toast({
+                    className: cn(
+                        "top-0 right-0 flex fixed md:max-w-[420px] md:top-4 md:right-4"
+                    ),
+                    description: `${error.response!.data.message}`,
+                });
+            }
         }
     }
     return (
