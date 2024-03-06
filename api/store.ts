@@ -243,7 +243,7 @@ export const createCategory = async (data: any, storeId: string) => {
 }
 export const updateCategory = async (data: any, storeId: string, categoryId: string) => {
   const token = getCookie("token");
-  const response = await req.patch(`/${storeId}/category/${categoryId}`, data, {
+  const response = await req.patch(`/store/${storeId}/category/${categoryId}`, data, {
     headers: { Authorization: `Bearer ${token}` },
   });
   return response.data
