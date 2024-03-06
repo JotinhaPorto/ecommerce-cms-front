@@ -1,7 +1,7 @@
 import axios from "axios";
 
 export const req = axios.create({
-    baseURL: process.env.API_KEY,
+    baseURL: "https://ecommerce-backend-api-planetscale.onrender.com",
     headers: {
         Accept: 'application/json'
     },
