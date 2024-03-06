@@ -1,6 +1,7 @@
 import { req } from "@/api/axios";
 import { TLoginSchema, TregisterSchema } from "@/app/types/Auth";
 import { Billboard, BillboardWithImage, Categories, Category, Color, ImageUpload, Product, Size } from "@/app/types/Store";
+import axios from "axios";
 import { getCookie } from "cookies-next";
 
 export const register = async (data: TregisterSchema) => {
@@ -160,7 +161,7 @@ export const deleteSize = async (storeId: string, sizeId: string) => {
 
 export const createSize = async (data: any, storeId: string) => {
   const token = getCookie("token");
-  const response = await req.post(`/store/${storeId}/size/create`, data, {
+  const response = await axios.post(`https://ecommerce-backend-api-planetscale.onrender.com/store/${storeId}/size/create`, data, {
     headers: { Authorization: `Bearer ${token}` },
   });
   return response.data;
